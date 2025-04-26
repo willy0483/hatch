@@ -29,6 +29,7 @@ const Hero = () => {
             className="w-full md:w-3/4 z-30"
             width={500}
             height={500}
+            priority
           />
         </div>
       </div>
