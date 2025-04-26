@@ -26,5 +26,8 @@
   "homepage": "https://github.com/willy0483/hatch#readme",
   "devDependencies": {
     "turbo": "^2.5.2"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.7.0"
   }
 }
