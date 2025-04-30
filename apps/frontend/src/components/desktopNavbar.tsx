@@ -17,7 +17,6 @@ const DesktopNavbar = ({ children }: Props) => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-    console.log(window.screenY);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -28,7 +27,7 @@ const DesktopNavbar = ({ children }: Props) => {
   return (
     <nav
       className={cn(
-        "hidden fixed transition-colors w-full z-50 text-white top-0 mb:block",
+        "fixed transition-colors w-full z-50 text-white top-0 hidden md:block",
         {
           "bg-white text-gray-700 shadow-md": isScrollDown,
         }

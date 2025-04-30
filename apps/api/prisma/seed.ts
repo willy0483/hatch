@@ -23,11 +23,11 @@ const main = async () => {
     data: users,
   });
 
-  const posts = Array.from({ length: 40 }).map(() => ({
+  const posts = Array.from({ length: 400 }).map(() => ({
     title: faker.lorem.sentence(),
     slug: generateSlug(faker.lorem.sentence()),
     content: faker.lorem.paragraphs(3),
-    thumbnail: faker.image.urlLoremFlickr({ height: 240, width: 320 }),
+    thumbnail: faker.image.urlPicsumPhotos({ height: 240, width: 320 }), // Generates unique images
     authorId: faker.number.int({ min: 1, max: 10 }),
     published: true,
   }));
