@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -15,6 +16,8 @@ const DesktopNavbar = ({ children }: Props) => {
     setScrollPosition(currentScrollY);
   };
 
+  const pathname = usePathname();
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -23,13 +26,14 @@ const DesktopNavbar = ({ children }: Props) => {
   }, []);
 
   const isScrollDown = scrollPosition > 1;
+  const isHome = pathname === "/";
 
   return (
     <nav
       className={cn(
         "fixed transition-colors w-full z-50 text-white top-0 hidden md:block",
         {
-          "bg-white text-gray-700 shadow-md": isScrollDown,
+          "bg-white text-gray-700 shadow-md": isScrollDown || !isHome,
         }
       )}
     >
