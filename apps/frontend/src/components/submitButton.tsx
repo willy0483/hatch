@@ -1,8 +1,10 @@
-import { useFormState } from "react-dom";
+"use client";
+
 import { Button, ButtonProps } from "./ui/button";
+import { useActionState } from "react";
 
 export const SubmitButton = ({ children, ...props }: ButtonProps) => {
-  const { pending } = useFormState({ state: {}, action: () => {} });
+  const [, , pending] = useActionState(() => {}, undefined);
 
   return (
     <Button type="submit" aria-disabled={pending} {...props}>
