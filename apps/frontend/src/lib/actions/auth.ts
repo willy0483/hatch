@@ -2,10 +2,12 @@
 
 import { redirect } from "next/navigation";
 import { fetchGraphQL } from "../fetchGraphQL";
-import { CREATE_USER_MUTATION } from "../gqlQueries";
+import { CREATE_USER_MUTATION, SIGN_IN_MUTATION } from "../gqlQueries";
 import { SignUpFormState } from "../types/formState";
 import { SignUpFormSchema } from "../zodSchemas/signUpFormSchema";
 import { print } from "graphql";
+import { revalidatePath } from "next/cache";
+import { LoginFormSchema } from "../zodSchemas/loginFormSchema";
 
 export const signup = async (
   state: SignUpFormState,
@@ -35,4 +37,37 @@ export const signup = async (
     };
   }
   redirect("/auth/signin");
+};
+
+export const signIn = async (
+  state: SignUpFormState,
+  formData: FormData
+): Promise<SignUpFormState> => {
+  const validatedFields = LoginFormSchema.safeParse(
+    Object.fromEntries(formData.entries())
+  );
+
+  if (!validatedFields.success) {
+    return {
+      data: Object.fromEntries(formData.entries()),
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const data = await fetchGraphQL(print(SIGN_IN_MUTATION), {
+    input: {
+      ...validatedFields.data,
+    },
+  });
+
+  if (data.errors) {
+    return {
+      data: Object.fromEntries(formData.entries()),
+      message: "Invalid Credentials",
+    };
+  }
+
+  // Todo create a session
+  revalidatePath("/");
+  redirect("/");
 };
