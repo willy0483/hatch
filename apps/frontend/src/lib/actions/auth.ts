@@ -8,6 +8,7 @@ import { SignUpFormSchema } from "../zodSchemas/signUpFormSchema";
 import { print } from "graphql";
 import { revalidatePath } from "next/cache";
 import { LoginFormSchema } from "../zodSchemas/loginFormSchema";
+import { createSession } from "../session";
 
 export const signup = async (
   state: SignUpFormState,
@@ -68,6 +69,16 @@ export const signIn = async (
   }
 
   // Todo create a session
+
+  await createSession({
+    user: {
+      id: data.signIn.id,
+      name: data.signIn.name,
+      avatar: data.signIn.avatar,
+    },
+    accessToken: data.signIn.accessToken,
+  });
+
   revalidatePath("/");
   redirect("/");
 };
