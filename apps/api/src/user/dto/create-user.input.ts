@@ -10,7 +10,6 @@ export class CreateUserInput {
   password: string;
 
   @Field()
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   @IsEmail()
   email: string;
 
