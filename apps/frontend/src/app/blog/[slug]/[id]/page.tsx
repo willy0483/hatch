@@ -1,6 +1,8 @@
 import { fetchPostById } from "@/lib/actions/postActions";
 import Image from "next/image";
 import SanitizedContent from "./_components/sanitizedContent";
+import Comments from "./_components/comments";
+import { getSession } from "@/lib/session";
 
 type Props = {
   params: {
@@ -10,8 +12,8 @@ type Props = {
 
 const Page = async ({ params }: Props) => {
   const postId = (await params).id;
-
   const post = await fetchPostById(+postId);
+  const session = await getSession();
 
   return (
     <main className="container mx-auto px-4 py-8 mt-16">
@@ -25,13 +27,19 @@ const Page = async ({ params }: Props) => {
           src={post.thumbnail ?? "/no-image.png"}
           alt={post.title}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="rounded-md object-cover"
+          priority
         />
       </div>
 
       <SanitizedContent content={post.content} />
 
       {/* Todo: put Post Comments here */}
+
+      {session && session.user && (
+        <Comments user={session.user} postId={post.id} />
+      )}
     </main>
   );
 };
