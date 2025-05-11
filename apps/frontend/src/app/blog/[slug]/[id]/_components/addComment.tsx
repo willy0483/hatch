@@ -33,18 +33,24 @@ type Props = {
 
 const AddComment = ({ className, user, postId, refetch }: Props) => {
   const [state, action] = useActionState(saveComment, undefined);
+
   const [isOpen, setIsOpen] = useState(state?.open);
 
   const stableRefetch = refetch;
 
   useEffect(() => {
-    toast(state?.ok ? "Success" : "Oops!", {
-      description: state?.message,
-    });
-
-    if (state?.ok) {
-      stableRefetch();
-      setIsOpen(false);
+    if (state?.message) {
+      if (state?.ok) {
+        toast.success("Success", {
+          description: state?.message,
+        });
+        stableRefetch();
+        setIsOpen(false);
+      } else {
+        toast.error("Oops!", {
+          description: state?.message,
+        });
+      }
     }
   }, [state, stableRefetch]);
 

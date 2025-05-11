@@ -24,7 +24,6 @@ export const fetchGraphQL = async (query: string, variables = {}) => {
 
 export const authFetchGraphQL = async (query: string, variables = {}) => {
   const session = await getSession();
-
   const response = await fetch(`${BACKEND_URL}/graphql`, {
     method: "POST",
     headers: {
@@ -39,7 +38,7 @@ export const authFetchGraphQL = async (query: string, variables = {}) => {
 
   const result = await response.json();
   if (result.errors) {
-    console.error("Graphql errors:", result.errors);
+    console.error("GraphQL errors:", result.errors);
     throw new Error("Failed to fetch the data from GraphQL");
   }
 

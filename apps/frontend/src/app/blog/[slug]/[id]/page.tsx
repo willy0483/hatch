@@ -3,6 +3,7 @@ import Image from "next/image";
 import SanitizedContent from "./_components/sanitizedContent";
 import Comments from "./_components/comments";
 import { getSession } from "@/lib/session";
+import Like from "./_components/like";
 
 type Props = {
   params: {
@@ -34,6 +35,8 @@ const Page = async ({ params }: Props) => {
       </div>
 
       <SanitizedContent content={post.content} />
+
+      <Like postId={post.id} user={session?.user} />
 
       {/* Todo: put Post Comments here */}
 
